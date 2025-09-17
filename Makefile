@@ -34,7 +34,7 @@ OBJS = \
 
 # riscv64-unknown-elf- or riscv64-linux-gnu-
 # perhaps in /opt/riscv/bin
-#TOOLPREFIX = 
+TOOLPREFIX = /home/pvc/ebla/xv6-riscv/bin/riscv64-unknown-elf-
 
 # Try to infer the correct TOOLPREFIX if not set
 ifndef TOOLPREFIX
@@ -158,6 +158,7 @@ UPROGS=\
 	$U/_alloctest\
 	$U/_cowtest\
 	$U/_lazytests\
+	$U/_pingpong\
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)

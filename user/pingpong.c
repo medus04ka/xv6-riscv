@@ -11,6 +11,15 @@ main(int argc, char **argv)
     char *ping_msg = "sosal&";
     char *pong_msg = "da<kone4no";
 
+    if (pipe(p2c) < 0) {
+        printf("pipe p2c failed\n");
+        exit(1);
+    }
+    if (pipe(c2p) < 0) {
+        printf("pipe c2p failed\n");
+        exit(1);
+    }
+
     int pid = fork();
     if (pid < 0) {
         printf("fork failed\n");
@@ -30,7 +39,7 @@ main(int argc, char **argv)
         }
         buf[n] = 0;
 
-        printf("%s\n", getpid(), buf);
+        printf("%d: %s\n", getpid(), buf);
 
         write(c2p[1], pong_msg, strlen(pong_msg));
         close(p2c[0]);
@@ -53,7 +62,7 @@ main(int argc, char **argv)
         }
         buf[n] = 0;
 
-        printf(" %s\n", getpid(), buf);
+        printf("%d: %s\n", getpid(), buf);
 
         close(c2p[0]);
 

@@ -1,4 +1,8 @@
 {
-    "C_Cpp.intelliSenseEngine": "disabled",
-    "clangd.path": "clangd-18"
+    "files.associations": {
+        "*.css": "tailwindcss",
+        "user.h": "c",
+        "stat.h": "c",
+        "types.h": "c"
+    }
 }

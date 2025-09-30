@@ -698,9 +698,8 @@ procdump(void)
 
 void dump(void) {
   struct proc *p = myproc();
-  
   for (int i = 2; i < 12; i++) {
-    printf("S%d: %d\n", i, p->trapframe + offsetof(struct trapframe, a6) + i * 8);
+    printf("S%d: %d\n", i, *(uint64*)((void*)p->trapframe + offsetof(struct trapframe, a6) + i * sizeof(uint64)));
   } 
 }
 
@@ -718,27 +717,27 @@ uint64 dump2(int pid, int register_num, uint64 return_addr) {
   struct proc *p = myproc();
 
   if (!(register_num >= 2 && register_num < 12)) {
-    return 3;
+    return -3;
   }
 
   for (int i = 0; i < NPROC; i++) {
     if (proc[i].pid == pid) {
       if (is_child_of(&proc[i], p->pid) == 0) {
-        return 1;
+        return -1;
       }
 
       if (copyout(
-        proc[i].pagetable,
+        p->pagetable,
         return_addr,
-        (char*)(proc[i].trapframe + offsetof(struct trapframe, a6) + register_num*8),
-        4) < 0
+        (void*)((void*)proc[i].trapframe + offsetof(struct trapframe, a6) + register_num*sizeof(uint64)),
+        sizeof(uint64)) < 0
       ) {
-        return 4;
+        return -4;
       }
       
       return 0;
     }
   }
 
-  return 2;
+  return -2;
 }

@@ -699,7 +699,7 @@ procdump(void)
 void dump(void) {
   struct proc *p = myproc();
   for (int i = 2; i < 12; i++) {
-    printf("S%d: %d\n", i, *(uint64*)((void*)p->trapframe + offsetof(struct trapframe, a6) + i * sizeof(uint64)));
+    printf("S%d: %ld\n", i, *(uint64*)((void*)p->trapframe + offsetof(struct trapframe, a6) + i * sizeof(uint64)));
   } 
 }
 
